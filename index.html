@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+
+    <!--top btn-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#settings">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--top btn-->
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="bookmarklist"></div>
+    </div>
+</div>
+
+<div id="search-container">
+    <div id="search">
+        <input type="text" id="search-text">
+        <input type="button" value="Google" id="google">
+        <input type="button" value="Яндекс" id="yandex">
+    </div>
+</div>
+
+
+<br>
+<div class="container">
+    <div class="row">
+        <ul class="nav nav-tabs" role="tablist"></ul>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="tab-content"></div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Настройки</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="BGUrl">Фон:</label>
+                            <input type="text" class="form-control" id="BGUrl" placeholder="http://example.com/img.jpg">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-primary btn-save-conf" data-dismiss="modal">Сохранить изменения</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+
+        <script src="libs/jquery-3.1.1.min.js"></script>
+        <script src="index.js"></script>
+        <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
+        <script src="scripts/BG-img.js"></script>
+    </body>
+</html>
