@@ -1,73 +1,4 @@
 
-var  App = {
-    lastUpdatedImg: 0,
-
-    // картинка загрузка//
-    loadImg: function () {
-        setTimeout(function() {
-            checkUrl( $(".tab-content a").length, 0);
-        }, 500);
-    },
-    // картинка загрузка//
-
-    // проверка времени
-    checkLocalStorage: function () {
-        let timeNow = new Date();
-        timeNow = timeNow.getTime();
-        let timeLS = parseInt( localStorage["lastUpdatedImg"] );
-        if(timeLS == undefined || isNaN(timeLS) ){
-            localStorage["lastUpdatedImg"] = timeNow;
-        } else if( ( timeNow - timeLS ) > ( (1000*10) * 5 ) ){
-            localStorage["lastUpdatedImg"] = timeNow;
-            this.loadImg();
-        }
-    }
-    // проверка времени//
-};
-
-App.checkLocalStorage();
-
-// картинка загрузка
-let timer;
-let countLoadImg = 0;
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function checkUrl(lenght, i) {
-    if(lenght > i){
-        console.log('------------------------');
-        let parser = document.createElement('a');
-        parser.href = $(".tab-content a").eq(i).attr( 'href' );
-        let host = parser.hostname;
-        let imageUrl = `http://stekolschikov.info/extensions/StarTab/screens/${host}.jpg`;
-        let imageUrlGet = `http://stekolschikov.info/extensions/StarTab/getScreenshot.php?url=${host}`;
-        $.ajax ({
-            type: "HEAD",
-            url: imageUrl,
-            success: function (message, text, response) {
-                if (response.getResponseHeader('Content-Type').indexOf("image") != -1) {
-
-                } else {
-                    $.get( imageUrlGet, function() {});
-                    countLoadImg++;
-                    console.log(imageUrl)
-                }
-            },
-            complete: function () {
-                if(lenght > i + 1){
-                    window.clearTimeout(timer);
-                    timer = window.setTimeout(function(){ checkUrl(lenght, i+1) }, 5);
-                } else{
-                    if(countLoadImg > 0) {
-                        console.log('nead reload')
-                    }
-                }
-            }
-        })
-    }
-}
-// картинка загрузка//
-
 
 
 
@@ -98,20 +29,7 @@ $( function() {
 });
 // изменение
 
-// поиск
-$( function() {
-    function search(searchIn) {
-        let searchText = $('#search-text').val();
-        if(searchIn == 'google'){
-            window.location.replace('https://www.google.com.ua/search?q=' + searchText);
-        } else {
-            window.location.replace('https://yandex.ua/search/?text=' + searchText);
-        }
-    }
-    $('#google').on( "click", function () {search('google')})
-    $('#yandex').on( "click", function () {search('yandex')})
-});
-// поиск//
+
 
 // картинка
 chrome.bookmarks.getTree(function(results) {
@@ -142,7 +60,7 @@ chrome.bookmarks.getTree(function(results) {
                         let l = document.createElement("a");
                         l.href = tabContentUrl;
                         var imageUrl = `http://stekolschikov.info/extensions/StarTab/screens/${l.hostname}.jpg)`;
-                        tabContentStrTemp = tabContentStrTemp + `<div class="el" data-id="${tabContentId}">
+                        tabContentStrTemp = tabContentStrTemp + `<div class="el" data-id="${tabContentId}" draggable="true">
                                                                     <span class='del'>
                                                                         <i class="fa fa-times" aria-hidden="true"></i>
                                                                     </span>
@@ -169,52 +87,19 @@ chrome.bookmarks.getTree(function(results) {
 // картинка//
 
 
-// запуск первой вкладки
+
+let edit_id = 0;
 $(document).ready(function () {
     setTimeout(function() {
 
-        // data
-        let edit_id = 0;
-
-        $('.nav-link:first').click();
+        // $('.nav-link:first').click();
 
         // удаление
-        $('.del').on( "click", function () {
-            let id = '' + $(this).parent().data('id');
-            let isDir = $(this).parent().attr('data-dir');
-            if (isDir == 'true'){
-                chrome.bookmarks.removeTree(''+id, function(){
-                    $('.nav-link').eq(0).click();
-                    $('.nav-link').eq(1).click();
-                    $('.nav-link').eq(0).click();
-                });
-            } else{
-                chrome.bookmarks.remove(id);
-            }
-
-            $(this).parent().remove();
-        });
+        del();
         // удаление//
 
-
         // изменить
-        $('.edit').on( "click", function () {
-            edit_id = '' + $(this).parent().data('id');
-            let isDir = $(this).parent().attr('data-dir');
-            if (isDir == 'true'){
-                let text = $(this).parent().find('a').text();
-                // $('#edit_dir_title').val('');
-                $('#edit_dir_title').val(text.trim());
-            } else{
-                let id = '' + $(this).parent().data('id');
-                let src = $(this).parent().find('a').attr('href');
-                let text = $(this).parent().find('.text').text();
-                $('#link_title').val('');
-                $('#link_url').val('');
-                $('#link_title').val(text);
-                $('#link_url').val(src);
-            }
-        });
+        edit();
         // изменить//
 
         // сохранить изменения
@@ -234,7 +119,61 @@ $(document).ready(function () {
 
     }, 500);
 });
-// запуск первой вкладки//
+
+
+// удаление
+function del() {
+    $('.del').on( "click", function () {
+        let id = '' + $(this).parent().data('id');
+        console.log(id)
+        let isDir = $(this).parent().attr('data-dir');
+        if (isDir == 'true'){
+            chrome.bookmarks.removeTree(''+id, function(){
+                $('.nav-link').eq(0).click();
+                $('.nav-link').eq(1).click();
+                $('.nav-link').eq(0).click();
+            });
+        } else{
+            chrome.bookmarks.remove(id);
+        }
+        $(this).parent().remove();
+    });
+}
+// удаление//
+
+// изменить
+function edit() {
+    $('.edit').on( "click", function () {
+        edit_id = '' + $(this).parent().data('id');
+        let isDir = $(this).parent().attr('data-dir');
+        if (isDir == 'true'){
+            let text = $(this).parent().find('a').text();
+            // $('#edit_dir_title').val('');
+            $('#edit_dir_title').val(text.trim());
+        } else{
+            let id = '' + $(this).parent().data('id');
+            let src = $(this).parent().find('a').attr('href');
+            let text = $(this).parent().find('.text').text();
+            $('#link_title').val('');
+            $('#link_url').val('');
+            $('#link_title').val(text);
+            $('#link_url').val(src);
+        }
+    });
+}
+// изменить//
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

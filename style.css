@@ -13,7 +13,25 @@ a {
 .tab-pane{
     text-align: center
 }
-
+ul.nav.nav-tabs{
+    /*margin-left: 15px;*/
+    text-align: center;
+}
+.nav-tabs>li {
+    float: none !important;
+    margin-bottom: -1px;
+    display: inline-block !important;
+}
+.nav-tabs>li>a{
+    border-radius: 0 !important;
+    background: rgba(238, 238, 238, 0.70);
+}
+.nav-tabs>li>a:hover {
+    border-color: #eee #eee #ddd;
+}
+.nav-tabs>li.active>a{
+    color: #2c97dd !important;
+}
 /*input*/
 .search-container input[type="text"]{
     width: calc( 100% - 20px );
@@ -38,6 +56,9 @@ a {
 /*input*/
 
 /*#bookmarklist*/
+.tab-content{
+    margin-top: 25px;
+}
 #bookmarklist .el, .tab-content .el{
     display: inline-flex;
     width: 60px;
@@ -103,27 +124,18 @@ a {
 /*#bookmarklist*/
 
 /*search-container*/
-#search-container{
-    width: 900px;
-    max-width: 90%;
-    margin: 20px auto;
-}
+/*#search-container{*/
+    /*width: 900px;*/
+    /*max-width: 90%;*/
+    /*margin: 20px auto;*/
+/*}*/
+/*#search{*/
+    /*display: flex;*/
+/*}*/
 #search{
-    display: flex;
+    margin-bottom: 50px;
 }
-#search-container input{
-    padding: 10px;
-    margin-right: 5px;
-    border: 0;
-}
-#search-container input[type="text"]{
-    width: calc(100% - 170px );
-    background: white;
-    font: 16px arial,sans-serif;
-    line-height: 15px !important;
-    height: 44px !important;
-    border: 1px solid #d9d9d9;
-}
+
 /*search-container*/
 
 /*modal-container*/
@@ -166,8 +178,8 @@ a {
 
 /*tabs*/
 .tab-content .el{
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     background: white;
     display: inline-flex;
     margin: 10px 10px 50px 10px;
@@ -213,3 +225,40 @@ a {
     display: block !important;
 }
 /*tabs*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
