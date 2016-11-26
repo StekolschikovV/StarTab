@@ -121,7 +121,17 @@ chrome.bookmarks.getTree(function(results) {
             if(results[0].children[0].children[i].children !== undefined){
                 var nameDir = results[0].children[0].children[i].title;
                 var nameId = results[0].children[0].children[i].id;
-                var tabStr = `<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#t${nameId}" role="tab">` + nameDir + `</a></li>`;
+                var tabStr =    `<li class="nav-item" data-id="${nameId}" data-dir="true">
+                                    <span class='del'>                               
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </span>
+                                    <span class='edit' data-toggle="modal" data-target="#edit_dir">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </span>
+                                    <a class="nav-link" data-toggle="tab" href="#t${nameId}" role="tab">
+                                        ${nameDir}
+                                    </a>
+                                </li>`;
                 $( ".nav-tabs" ).append(tabStr);
                 var tabContentStrTemp = "";
                 chrome.bookmarks.getSubTree( "" + nameId, function(array) {
@@ -162,33 +172,57 @@ chrome.bookmarks.getTree(function(results) {
 // запуск первой вкладки
 $(document).ready(function () {
     setTimeout(function() {
-        
+
+        // data
+        let edit_id = 0;
+
         $('.nav-link:first').click();
 
         // удаление
         $('.del').on( "click", function () {
             let id = '' + $(this).parent().data('id');
-            chrome.bookmarks.remove(id);
+            let isDir = $(this).parent().attr('data-dir');
+            if (isDir == 'true'){
+                chrome.bookmarks.removeTree(''+id, function(){
+                    $('.nav-link').eq(0).click();
+                    $('.nav-link').eq(1).click();
+                    $('.nav-link').eq(0).click();
+                });
+            } else{
+                chrome.bookmarks.remove(id);
+            }
+
             $(this).parent().remove();
-        })
+        });
         // удаление//
 
-        let edit_id = 0;
+
         // изменить
         $('.edit').on( "click", function () {
-            let id = '' + $(this).parent().data('id');
-            let src = $(this).parent().find('a').attr('href');
-            let text = $(this).parent().find('.text').text();
-            edit_id = id;
-            $('#link_title').val('');
-            $('#link_url').val('');
-            $('#link_title').val(text);
-            $('#link_url').val(src);
-            console.log(edit_id);
-        })
+            edit_id = '' + $(this).parent().data('id');
+            let isDir = $(this).parent().attr('data-dir');
+            if (isDir == 'true'){
+                let text = $(this).parent().find('a').text();
+                // $('#edit_dir_title').val('');
+                $('#edit_dir_title').val(text.trim());
+            } else{
+                let id = '' + $(this).parent().data('id');
+                let src = $(this).parent().find('a').attr('href');
+                let text = $(this).parent().find('.text').text();
+                $('#link_title').val('');
+                $('#link_url').val('');
+                $('#link_title').val(text);
+                $('#link_url').val(src);
+            }
+        });
         // изменить//
 
         // сохранить изменения
+        $('#edit_dir_save').on( "click", function () {
+            let text = $('#edit_dir_title').val();
+            chrome.bookmarks.update(''+edit_id, {title: text});
+            $("*[data-id='" + edit_id + "']").find('a').text(text);
+        });
         $('#link_save').on( "click", function () {
             let link_title = $('#link_title').val();
             let link_url = $('#link_url').val();
@@ -197,7 +231,6 @@ $(document).ready(function () {
             $("*[data-id='" + edit_id + "']").find('.text').text(link_title);
         });
         // сохранить изменения//
-        //
 
     }, 500);
 });
