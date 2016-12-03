@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="libs/jquery-3.1.1.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div id="new" style="display:none" class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <h3 class="text-center">Add a new bookmark</h3>
+          <select class="dir"></select>
+          <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 no-padding">
+            <input type="text" placeholder="Name new dir" class="new_dir_title">
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding">
+            <input type="button" value="Add dir" class="new_dir_btn">
+          </div>
+          <input type="text" placeholder="Title" class="title">
+          <input type="text" placeholder="Url" class="url">
+          <input type="button" value="Add" class="add">
+          <input type="button" value="Cancel" class="cancel">
+        </div>
+      </div>
+    </div>
+    <div id="old" style="display:none" class="container">
+      <div class="row">
+        <h3 class="text-center">Edit bookmark</h3>
+        <select class="dir"></select>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 no-padding">
+          <input type="text" placeholder="Name new dir" class="new_dir_title">
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding">
+          <input type="button" value="Add dir" class="new_dir_btn">
+        </div>
+        <input type="text" placeholder="Title" class="title">
+        <input type="text" placeholder="Url" class="url">
+        <input type="button" value="Cancel" class="cancel">
+        <input type="button" value="Del" class="del">
+        <input type="button" value="Edit" class="edit">
+      </div>
+    </div>
+    <!-- Button trigger modal-->
+    <!-- Modal-->
+    <div id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal fade">
+      <div role="document" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body"></div>
+        </div>
+        <script src="background.js "></script>
+      </div>
+    </div>
+    <link rel="stylesheet" href="popup-style.css">
+  </body>
+</html>

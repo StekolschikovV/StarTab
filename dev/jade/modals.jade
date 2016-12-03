@@ -1,0 +1,60 @@
+// Modal settings
+#settings.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                h4#myModalLabel.modal-title Настройки
+            .modal-body
+                .form-group
+                    label(for='BGUrl') Background image:
+                    input#BGUrl.form-control(type='text', placeholder='http://example.com/img.jpg')
+                    br
+                    label(for='BGColor') Background image:
+                    input#BGColor.form-control(type='text', placeholder='#ff0000 OR red')
+                    br
+                    label(for='LinksWidth') Links width:
+                    input#LinksWidth.form-control(type='text', placeholder='some int')
+            .modal-footer
+                button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
+                button.btn.btn-primary.btn-save-conf(type='button', data-dismiss='modal')
+                    | Сохранить изменения
+ // Modal settings
+ // Modal edit
+#edit.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                h4#ModalEditLabel.modal-title Изменить
+            .modal-body
+                .form-group
+                    label(for='link_title') Title:
+                    input#link_title.form-control(type='text', placeholder='Link title')
+                    br
+                    label(for='link_url') Url:
+                    input#link_url.form-control(type='text', placeholder='Link url')
+                    br
+                    label(for='link_dir') Dir:
+                    select#link_dir
+            .modal-footer
+                button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
+                button#link_save.btn.btn-primary.btn-save-conf(type='button', data-dismiss='modal')
+                    | Сохранить изменения
+ // Modal edit
+ // Modal edit dir
+#edit_dir.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                h4.modal-title Изменить
+            .modal-body
+                .form-group
+                    label(for='link_title') Название:
+                    input#edit_dir_title.form-control(type='text', placeholder='Link title')
+            .modal-footer
+                button.btn.btn-default(type='button', data-dismiss='modal') Закрыть
+                button#edit_dir_save.btn.btn-primary.btn-save-conf(type='button', data-dismiss='modal')
+                    | Сохранить изменения
+ // Modal edit dir

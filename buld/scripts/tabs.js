@@ -1,7 +1,6 @@
 
 
 
-
 // изменение
 $( function() {
     $('.update').on( "click", function () {
@@ -40,6 +39,7 @@ chrome.bookmarks.getTree(function(results) {
                 var nameDir = results[0].children[0].children[i].title;
                 var nameId = results[0].children[0].children[i].id;
                 var tabStr =    `<li class="nav-item" data-id="${nameId}" data-dir="true">
+                                    <span class="nav-item-id" data-id="${nameId}"></span>
                                     <span class='del'>                               
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                     </span>
@@ -60,7 +60,8 @@ chrome.bookmarks.getTree(function(results) {
                         let l = document.createElement("a");
                         l.href = tabContentUrl;
                         var imageUrl = `http://stekolschikov.info/extensions/StarTab/screens/${l.hostname}.jpg)`;
-                        tabContentStrTemp = tabContentStrTemp + `<div class="el" data-id="${tabContentId}" draggable="true">
+                        tabContentStrTemp = tabContentStrTemp + `
+                                                                <div class="el" data-id="${tabContentId}" draggable="true">
                                                                     <span class='del'>
                                                                         <i class="fa fa-times" aria-hidden="true"></i>
                                                                     </span>
@@ -69,9 +70,9 @@ chrome.bookmarks.getTree(function(results) {
                                                                     </span>
                                                                     <a href="${tabContentUrl}"  style="background-image: url('http://stekolschikov.info/extensions/StarTab/screens/${l.hostname}.jpg')">
                                                                         <span class="text">` + tabContentText + `</span>
-
                                                                     </a>
-                                                                </div>`;
+                                                                </div>
+                                                                `;
                     }
                     var tabContentStr = '<div class="tab-pane" id="t' + nameId + '" role="tabpanel">'+tabContentStrTemp+'</div>';
                     $( ".tab-content" ).append(tabContentStr);
@@ -114,6 +115,14 @@ $(document).ready(function () {
             chrome.bookmarks.update(''+edit_id, {title: link_title, url: link_url});
             $("*[data-id='" + edit_id + "']").find('a').attr('href', link_url);
             $("*[data-id='" + edit_id + "']").find('.text').text(link_title);
+
+            let setDir = $('#link_dir').val();
+            let activeDir = $('li.nav-item.active').attr('data-id');
+            if(setDir != activeDir){
+                chrome.bookmarks.move(edit_id.toString(), {parentId: setDir.toString()});
+                $('*[data-id="' + edit_id + '"]').detach().appendTo('#t' + setDir)
+
+            }
         });
         // сохранить изменения//
 
@@ -127,14 +136,18 @@ function del() {
         let id = '' + $(this).parent().data('id');
         console.log(id)
         let isDir = $(this).parent().attr('data-dir');
-        if (isDir == 'true'){
+        let href = $(this).parent().find('a').attr('href');
+
+        if (isDir == 'true' || href == 'undefined'){
             chrome.bookmarks.removeTree(''+id, function(){
                 $('.nav-link').eq(0).click();
                 $('.nav-link').eq(1).click();
                 $('.nav-link').eq(0).click();
+                // console.log('href ',href)
             });
         } else{
             chrome.bookmarks.remove(id);
+            // console.log('href2 ',href)
         }
         $(this).parent().remove();
     });
@@ -144,6 +157,7 @@ function del() {
 // изменить
 function edit() {
     $('.edit').on( "click", function () {
+
         edit_id = '' + $(this).parent().data('id');
         let isDir = $(this).parent().attr('data-dir');
         if (isDir == 'true'){
@@ -158,6 +172,30 @@ function edit() {
             $('#link_url').val('');
             $('#link_title').val(text);
             $('#link_url').val(src);
+            $('#link_dir').empty()
+
+            $('.nav-tabs>li').each(function( index ) {
+                let title = $('.nav-tabs>li').eq(index).text().trim();
+                let id = $('.nav-tabs>li').eq(index).find('.nav-item-id').attr('data-id');
+                let active = $('.nav-tabs>li').eq(index).hasClass( "active" )
+
+
+                if(active == true){
+                    $('#link_dir')
+                        .append($("<option></option>")
+                            .attr("value",id)
+                            .text(title)
+                            .attr("selected", "selected")
+                        );
+                } else {
+                    $('#link_dir')
+                        .append($("<option></option>")
+                            .attr("value",id)
+                            .text(title)
+                        );
+                }
+
+            });
         }
     });
 }

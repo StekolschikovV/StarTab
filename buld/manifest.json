@@ -30,8 +30,8 @@
     "128": "icon.png"
         },
     "browser_action": {
-        "default_title": "Vi dev tools"
-//        "default_popup": "popup.html",
+        "default_title": "Vi dev tools",
+        "default_popup": "popup.html"
 //        "default_icon": "icon.png"
     },
     "manifest_version": 2

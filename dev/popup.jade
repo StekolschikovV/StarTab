@@ -1,0 +1,47 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        script(src='libs/jquery-3.1.1.min.js')
+        script(src='libs/bootstrap/js/bootstrap.min.js')
+        link(rel='stylesheet', href='libs/bootstrap/css/bootstrap.min.css')
+    body
+        .container#new(style="display:none")
+            .row
+                .col-xs-12.col-sm-12.col-md-12.col-lg-12
+                    h3.text-center Add a new bookmark
+                    select.dir
+                    .col-xs-8.col-sm-8.col-md-8.col-lg-8.no-padding
+                        input(type='text', placeholder='Name new dir').new_dir_title
+                    .col-xs-4.col-sm-4.col-md-4.col-lg-4.no-padding
+                        input(type='button' value='Add dir').new_dir_btn
+                    input(type='text', placeholder='Title').title
+                    input(type='text', placeholder='Url').url
+                    input(type='button' value='Add').add
+                    input(type='button' value='Cancel').cancel
+        .container#old(style="display:none")
+            .row
+                h3.text-center Edit bookmark
+                select.dir
+                .col-xs-8.col-sm-8.col-md-8.col-lg-8.no-padding
+                    input(type='text', placeholder='Name new dir').new_dir_title
+                .col-xs-4.col-sm-4.col-md-4.col-lg-4.no-padding
+                    input(type='button' value='Add dir').new_dir_btn
+                input(type='text', placeholder='Title').title
+                input(type='text', placeholder='Url').url
+                input(type='button' value='Cancel').cancel
+                input(type='button' value='Del').del
+                input(type='button' value='Edit').edit
+        // Button trigger modal
+
+        // Modal
+        #modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+            .modal-dialog(role='document')
+                .modal-content
+                    .modal-body
+
+
+                script(src='background.js ')
+        link(rel='stylesheet', href='popup-style.css')
+
