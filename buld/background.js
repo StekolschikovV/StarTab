@@ -42,7 +42,7 @@ var bookmarks_menu = {
 
     restart: function () {
         bookmarks_menu.start();
-        var timerId = setInterval(function() {      location.reload();                          }, 9000);
+        var timerId = setInterval(function() {      location.reload();                          }, 3000);
     },
     addBookmark: function () {
         chrome.bookmarks.create({
@@ -56,13 +56,13 @@ var bookmarks_menu = {
     sayInModal: function (commad) {
         let sayText = '';
         if(commad == 'del')
-            sayText = 'item removed';
+            sayText = 'Item removed';
         else if(commad == 'updated')
-            sayText = 'item was updated';
+            sayText = 'Item was updated';
         else if(commad == 'add')
-            sayText = 'item added';
+            sayText = 'Item added';
         $('#modal .modal-body').text(sayText);
-        $('#modal').modal('toggle');
+        $('#modal').modal('show');
     },
     editBookmark: function () {
         chrome.bookmarks.update(bookmarks_menu.page_added_id.toString(), {
